@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tik_tok_clone/constants.dart';
+import 'package:tik_tok_clone/controller/upload_video_controller.dart';
 import 'package:tik_tok_clone/views/widgets/text_input.dart';
 import 'package:video_player/video_player.dart';
 
@@ -22,6 +24,8 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
   late VideoPlayerController controller;
   TextEditingController songController = TextEditingController();
   TextEditingController captionController = TextEditingController();
+  UploadVideoController uploadVideoController =
+      Get.put(UploadVideoController());
   @override
   void initState() {
     super.initState();
@@ -72,8 +76,11 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                     ),
                     height25,
                     ElevatedButton(
-                        onPressed: () {},
-                        child: Text(
+                        onPressed: () => uploadVideoController.uploadVideo(
+                            songController.text,
+                            captionController.text,
+                            widget.vedioPath),
+                        child: const Text(
                           'Share',
                           style: TextStyle(fontSize: 20, color: Colors.white),
                         ))

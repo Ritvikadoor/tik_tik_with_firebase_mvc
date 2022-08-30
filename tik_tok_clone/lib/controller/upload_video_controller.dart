@@ -2,8 +2,9 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/get.dart';
 import 'package:tik_tok_clone/constants.dart';
+import 'package:tik_tok_clone/models/video.dart';
 import 'package:video_compress/video_compress.dart';
 
 class UploadVideoController extends GetxController {
@@ -23,6 +24,19 @@ class UploadVideoController extends GetxController {
     return downloadUrl;
   }
 
+  getThumbNail(String videoPath) async {
+    final thumbNail = await VideoCompress.getFileThumbnail(videoPath);
+    return thumbNail;
+  }
+
+  Future<String> uploadImageToStorage(String id, String videoPath) async {
+    Reference ref = firebaseStorage.ref().child('thumbNails').child(id);
+    UploadTask uploadTask = ref.putFile(await getThumbNail(videoPath));
+    TaskSnapshot snap = await uploadTask;
+    String downloadUrl = await snap.ref.getDownloadURL();
+    return downloadUrl;
+  }
+
   uploadVideo(String songName, String caption, String videoPath) async {
     try {
       String uid = firebaseAuth.currentUser!.uid;
@@ -30,7 +44,31 @@ class UploadVideoController extends GetxController {
           await firestore.collection('users').doc(uid).get();
       var allDocs = await firestore.collection('videos').get();
       int len = allDocs.docs.length;
-      uploadVideoToStorage("Video $len", videoPath);
-    } catch (e) {}
+      String videoUrl = await uploadVideoToStorage("Video $len", videoPath);
+      String thumbnail = await uploadImageToStorage('Video $len', videoPath);
+
+      Video video = Video(
+        caption: caption,
+        commentCount: 0,
+        id: "Video $len",
+        likes: [],
+        profilePhoto: (userDoc.data()! as Map<String, dynamic>)['profilePhoto'],
+        shareCount: 0,
+        songname: songName,
+        thumbnail: thumbnail,
+        uid: uid,
+        username: (userDoc.data()! as Map<String, dynamic>)['name'],
+        videourl: videoUrl,
+      );
+      await firestore.collection('videos').doc("Video $len").set(
+            video.toJson(),
+          );
+      Get.back();
+    } catch (e) {
+      Get.snackbar(
+        'Error Uploading Video',
+        e.toString(),
+      );
+    }
   }
 }
