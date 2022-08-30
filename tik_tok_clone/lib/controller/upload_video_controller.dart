@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
@@ -13,7 +11,7 @@ class UploadVideoController extends GetxController {
       videoPath,
       quality: VideoQuality.MediumQuality,
     );
-    return compressedVideo!.file;
+    return compressedVideo?.file;
   }
 
   Future<String> uploadVideoToStorage(String id, String videoPath) async {
@@ -30,7 +28,7 @@ class UploadVideoController extends GetxController {
   }
 
   Future<String> uploadImageToStorage(String id, String videoPath) async {
-    Reference ref = firebaseStorage.ref().child('thumbNails').child(id);
+    Reference ref = firebaseStorage.ref().child('thumbnail').child(id);
     UploadTask uploadTask = ref.putFile(await getThumbNail(videoPath));
     TaskSnapshot snap = await uploadTask;
     String downloadUrl = await snap.ref.getDownloadURL();
@@ -52,12 +50,12 @@ class UploadVideoController extends GetxController {
         commentCount: 0,
         id: "Video $len",
         likes: [],
-        profilePhoto: (userDoc.data()! as Map<String, dynamic>)['profilePhoto'],
+        profilePhoto: (userDoc.data() as Map<String, dynamic>)['profilePhoto'],
         shareCount: 0,
         songname: songName,
         thumbnail: thumbnail,
         uid: uid,
-        username: (userDoc.data()! as Map<String, dynamic>)['name'],
+        username: (userDoc.data() as Map<String, dynamic>)['name'],
         videourl: videoUrl,
       );
       await firestore.collection('videos').doc("Video $len").set(

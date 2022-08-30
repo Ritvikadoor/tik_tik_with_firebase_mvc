@@ -34,10 +34,10 @@ class Video {
         "likes": likes,
         "commentCount": commentCount,
         "shareCount": shareCount,
-        "songName": songname,
+        "songname": songname,
         "caption": caption,
         "videourl": videourl,
-        "thumnail": thumbnail,
+        "thumbnail": thumbnail,
         "profilePhoto": profilePhoto,
       };
   static Video fromSnap(DocumentSnapshot snap) {
