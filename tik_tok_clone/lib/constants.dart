@@ -9,12 +9,16 @@ import 'package:tik_tok_clone/views/screens/ui_screens/video_screen.dart';
 const backgroundColor = Colors.black;
 var buttonColor = Colors.red[400];
 const borderColor = Colors.grey;
+const whiteColor = Colors.white;
 /////height/////////////////
 const height25 = SizedBox(
   height: 25,
 );
 const height30 = SizedBox(
   height: 30,
+);
+const height100 = SizedBox(
+  height: 100,
 );
 
 /////FireBase constants
