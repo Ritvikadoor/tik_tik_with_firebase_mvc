@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -9,7 +10,6 @@ import 'package:video_player/video_player.dart';
 
 class ConfirmScreen extends StatefulWidget {
   final File vedioFile;
-
   final String vedioPath;
 
   const ConfirmScreen(
@@ -76,10 +76,16 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                     ),
                     height25,
                     ElevatedButton(
-                        onPressed: () => uploadVideoController.uploadVideo(
+                        onPressed: () {
+                          log("Video file ${widget.vedioFile}");
+                          log("Video path ${widget.vedioPath}");
+                          uploadVideoController.uploadVideo(
                             songController.text,
                             captionController.text,
-                            widget.vedioPath),
+                            widget.vedioPath,
+                            widget.vedioFile,
+                          );
+                        },
                         child: const Text(
                           'Share',
                           style: TextStyle(fontSize: 20, color: Colors.white),
