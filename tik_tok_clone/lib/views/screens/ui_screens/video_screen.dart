@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tik_tok_clone/constants.dart';
-import 'package:tik_tok_clone/views/widgets/video_player_items.dart';
 
 class VedioScreen extends StatelessWidget {
   const VedioScreen({Key? key}) : super(key: key);
@@ -15,7 +14,7 @@ class VedioScreen extends StatelessWidget {
             child: Container(
               width: 50,
               height: 50,
-              padding: EdgeInsets.all(1),
+              padding: const EdgeInsets.all(1),
               decoration: BoxDecoration(
                   color: whiteColor, borderRadius: BorderRadius.circular(25)),
               child: ClipRRect(
@@ -164,9 +163,6 @@ class VedioScreen extends StatelessWidget {
                     )
                   ],
                 ),
-                // Container(
-                //   color: Colors.red,
-                // )
               ],
             );
           }),
