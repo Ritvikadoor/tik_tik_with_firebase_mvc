@@ -30,7 +30,7 @@ var firestore = FirebaseFirestore.instance;
 var authController = AuthController.instance;
 ///////////Pages
 
-const pages = [
+List pages = [
   VedioScreen(),
   Text('Search Screen'),
   AddVedioScreen(),
