@@ -10,6 +10,11 @@ import 'package:tik_tok_clone/views/screens/auth/login_screens.dart';
 import 'package:tik_tok_clone/views/screens/ui_screens/home_screen.dart';
 
 class AuthController extends GetxController {
+  late Rx<File?> _pickedImage;
+  late Rx<User?> _user;
+  File? get ProfilePhoto => _pickedImage.value;
+
+  User get user => _user.value!;
   static AuthController instance = Get.find();
   Future<String> uploadToStorage(File image) async {
     Reference ref = firebaseStorage
@@ -23,9 +28,6 @@ class AuthController extends GetxController {
     return downloadUrl;
   }
 
-  late Rx<File?> _pickedImage;
-  File? get ProfilePhoto => _pickedImage.value;
-  late Rx<User?> _user;
   @override
   void onReady() {
     super.onReady();
