@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tik_tok_clone/constants.dart';
 import 'package:tik_tok_clone/controller/video_controller.dart';
+import 'package:tik_tok_clone/views/screens/ui_screens/ui_inside/comment_screen.dart';
 import 'package:tik_tok_clone/views/widgets/circle_animation.dart';
 import 'package:tik_tok_clone/views/widgets/video_player_items.dart';
 
@@ -176,7 +177,10 @@ class VedioScreen extends StatelessWidget {
                                             ),
                                           ),
                                           InkWell(
-                                            onTap: () {},
+                                            onTap: () {
+                                              Get.to(
+                                                  CommentScreen(id: data.id));
+                                            },
                                             child: const Icon(
                                               Icons.comment,
                                               size: 40,
