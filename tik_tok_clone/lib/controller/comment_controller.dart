@@ -1,7 +1,4 @@
-import 'dart:html';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tik_tok_clone/constants.dart';
 import 'package:tik_tok_clone/models/comment.dart';
@@ -9,8 +6,10 @@ import 'package:tik_tok_clone/models/comment.dart';
 class CommentController extends GetxController {
   final Rx<List<Comment>> _comments = Rx<List<Comment>>([]);
   List<Comment> get comments => _comments.value;
-  String _postId = '';
-  __updatePostId(String id) {
+
+  String _postId = "";
+
+  updatePostId(String id) {
     _postId = id;
     getComment();
   }
@@ -46,31 +45,67 @@ class CommentController extends GetxController {
             .doc(_postId)
             .collection('comments')
             .get();
-        int length = allDocs.docs.length;
+        int len = allDocs.docs.length;
+
         Comment comment = Comment(
+          username: (userDoc.data()! as dynamic)['name'],
           comment: commentText.trim(),
-          dataPublished: DateTime.now(),
-          id: 'Comment$length',
+          datePublished: DateTime.now(),
           likes: [],
-          profilePhoto: (userDoc.data() as dynamic)['profilePhoto'],
+          profilePhoto: (userDoc.data()! as dynamic)['profilePhoto'],
           uid: authController.user.uid,
-          username: (userDoc.data() as dynamic)['name'],
+          id: 'Comment $len',
         );
         await firestore
             .collection('videos')
             .doc(_postId)
             .collection('comments')
-            .doc('Comment$length')
+            .doc('Comment $len')
             .set(
               comment.toJson(),
             );
         DocumentSnapshot doc =
             await firestore.collection('videos').doc(_postId).get();
-        await firestore.collection('videos').doc(_postId).update(
-            {'commentCount': (doc.data() as dynamic)['commentCount'] + 1});
+        await firestore.collection('videos').doc(_postId).update({
+          'commentCount': (doc.data()! as dynamic)['commentCount'] + 1,
+        });
       }
     } catch (e) {
-      Get.snackbar("Error While Commenting", e.toString());
+      Get.snackbar(
+        'Error While Commenting',
+        e.toString(),
+      );
+      // print()
+    }
+  }
+
+  likeComment(String id) async {
+    var uid = authController.user.uid;
+    DocumentSnapshot doc = await firestore
+        .collection('videos')
+        .doc(_postId)
+        .collection('comments')
+        .doc(id)
+        .get();
+
+    if ((doc.data()! as dynamic)['likes'].contains(uid)) {
+      await firestore
+          .collection('videos')
+          .doc(_postId)
+          .collection('comments')
+          .doc(id)
+          .update({
+        'likes': FieldValue.arrayRemove([uid]),
+      });
+    } else {
+      await firestore
+          .collection('videos')
+          .doc(_postId)
+          .collection('comments')
+          .doc(id)
+          .update({
+        'likes': FieldValue.arrayUnion([uid]),
+      });
     }
   }
 }

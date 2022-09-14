@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tik_tok_clone/constants.dart';
 import 'package:tik_tok_clone/controller/comment_controller.dart';
 import 'package:timeago/timeago.dart' as tago;
 
@@ -15,7 +18,7 @@ class CommentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    //commentController.u(id);
+    commentController.updatePostId(id);
     return Scaffold(
       body: SingleChildScrollView(
         child: SizedBox(
@@ -58,7 +61,7 @@ class CommentScreen extends StatelessWidget {
                             children: [
                               Text(
                                 tago.format(
-                                  comment.dataPublished.toDate(),
+                                  comment.datePublished.toDate(),
                                 ),
                                 style: const TextStyle(
                                   fontSize: 12,
@@ -77,18 +80,18 @@ class CommentScreen extends StatelessWidget {
                               )
                             ],
                           ),
-                          // trailing: InkWell(
-                          //  // onTap: () =>,
-                          //       //commentController.likeComment(comment.id),
-                          //   child: Icon(
-                          //     Icons.favorite,
-                          //     size: 25,
-                          //     color: comment.likes
-                          //             .contains(authController.user.uid)
-                          //         ? Colors.red
-                          //         : Colors.white,
-                          //   ),
-                          // ),
+                          trailing: InkWell(
+                            // onTap: () =>,
+                            //commentController.likeComment(comment.id),
+                            child: Icon(
+                              Icons.favorite,
+                              size: 25,
+                              color: comment.likes
+                                      .contains(authController.user.uid)
+                                  ? Colors.red
+                                  : Colors.white,
+                            ),
+                          ),
                         );
                       });
                 }),
@@ -121,8 +124,11 @@ class CommentScreen extends StatelessWidget {
                   ),
                 ),
                 trailing: TextButton(
-                  onPressed: () =>
-                      commentController.postComment(_commentController.text),
+                  onPressed: () {
+                    commentController.postComment(_commentController.text);
+                    print(e.toString());
+                    print(commentController.toString());
+                  },
                   child: const Text(
                     'Send',
                     style: TextStyle(
