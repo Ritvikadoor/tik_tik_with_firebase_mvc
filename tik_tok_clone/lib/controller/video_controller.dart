@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:tik_tok_clone/constants.dart';
 import 'package:tik_tok_clone/models/video.dart';
+import 'package:tik_tok_clone/views/sample.dart';
 
 class VideoControllerX extends GetxController {
   final Rx<List<Video>> _videoList = Rx<List<Video>>([]);
@@ -10,6 +13,7 @@ class VideoControllerX extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
     _videoList.bindStream(
         firestore.collection('videos').snapshots().map((QuerySnapshot query) {
       List<Video> retVal = [];

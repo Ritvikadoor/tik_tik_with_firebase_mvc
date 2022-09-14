@@ -74,6 +74,17 @@ class VedioScreen extends StatelessWidget {
             itemCount: videoControllerX.videoList.length,
             itemBuilder: (context, index) {
               final data = videoControllerX.videoList[index];
+
+              // Future.delayed(Duration(seconds: 0))
+              //     .then((value) => {
+              //           Get.to(WhiteScreen(name: data.username))
+              //               ?.then((value) => Get.back())
+              //         })
+              //     .then((value) => {
+              //           Future.delayed(Duration(seconds: 5))
+              //               .then((value) => Get.back())
+              //         });
+
               return Stack(
                 children: [
                   VideoPlayerItem(
