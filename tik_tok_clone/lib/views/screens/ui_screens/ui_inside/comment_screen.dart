@@ -81,8 +81,8 @@ class CommentScreen extends StatelessWidget {
                             ],
                           ),
                           trailing: InkWell(
-                            // onTap: () =>,
-                            //commentController.likeComment(comment.id),
+                            onTap: () =>
+                                commentController.likeComment(comment.id),
                             child: Icon(
                               Icons.favorite,
                               size: 25,

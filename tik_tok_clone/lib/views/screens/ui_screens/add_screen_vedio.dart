@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tik_tok_clone/constants.dart';
-import 'package:tik_tok_clone/views/screens/ui_screens/confirm_screen.dart';
+import 'package:tik_tok_clone/views/screens/ui_screens/ui_inside/confirm_screen.dart';
 
 class AddVedioScreen extends StatelessWidget {
   const AddVedioScreen({Key? key}) : super(key: key);
